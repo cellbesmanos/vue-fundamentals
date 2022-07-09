@@ -25,6 +25,7 @@
         v-model.trim="userInput"
         type="text"
         placeholder="35 pints of ice cream"
+        maxlength="200"
       />
       <label>
         <input v-model="isHighPriority" type="checkbox" />
@@ -38,12 +39,13 @@
       >
         Save Item
       </button>
+      <p class="counter">{{ `${characterCount}/200` }}</p>
     </form>
 
     <p v-if="shoppingList.length <= 0">Nothing to buy yet. Add more items!</p>
     <ul v-else>
       <li
-        v-for="item in shoppingList"
+        v-for="item in reverseList"
         @click="toggleIsPurchased(item)"
         :key="item.id"
         :class="{ strikeout: item.isPurchased, priority: item.isPriority }"
@@ -55,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const header = ref("Shopping List App");
 const editting = ref(false);
@@ -66,6 +68,9 @@ const shoppingList = ref([
   { id: 2, item: "2 board games", isPriority: false, isPurchased: true },
   { id: 3, item: "20 cups", isPriority: true, isPurchased: false },
 ]);
+
+const characterCount = computed(() => userInput.value.length);
+const reverseList = computed(() => [...shoppingList.value].reverse());
 
 function addToList() {
   shoppingList.value.push({
