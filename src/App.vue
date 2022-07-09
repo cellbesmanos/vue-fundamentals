@@ -42,7 +42,13 @@
 
     <p v-if="shoppingList.length <= 0">Nothing to buy yet. Add more items!</p>
     <ul v-else>
-      <li v-for="{ id, item } in shoppingList" :key="id">{{ item }}</li>
+      <li
+        v-for="item in shoppingList"
+        :key="item.id"
+        :class="{ strikeout: item.isPurchased, priority: item.isPriority }"
+      >
+        {{ item.item }}
+      </li>
     </ul>
   </main>
 </template>
@@ -55,17 +61,21 @@ const editting = ref(false);
 const userInput = ref("");
 const isHighPriority = ref(false);
 const shoppingList = ref([
-  { id: 1, item: "10 party hats" },
-  { id: 2, item: "2 board games" },
-  { id: 3, item: "20 cups" },
+  { id: 1, item: "10 party hats", isPriority: false, isPurchased: false },
+  { id: 2, item: "2 board games", isPriority: false, isPurchased: true },
+  { id: 3, item: "20 cups", isPriority: true, isPurchased: false },
 ]);
 
 function addToList() {
   shoppingList.value.push({
     id: shoppingList.value.length + 1,
     item: userInput.value,
+    isPriority: isHighPriority.value,
+    isPurchased: false,
   });
+  console.log(isHighPriority);
 
   userInput.value = "";
+  isHighPriority.value = false;
 }
 </script>
