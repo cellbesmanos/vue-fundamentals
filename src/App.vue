@@ -31,7 +31,13 @@
         High Priority
       </label>
 
-      <button type="submit" class="btn btn-primary">Save Item</button>
+      <button
+        :disabled="userInput.length < 5"
+        type="submit"
+        class="btn btn-primary"
+      >
+        Save Item
+      </button>
     </form>
 
     <p v-if="shoppingList.length <= 0">Nothing to buy yet. Add more items!</p>
