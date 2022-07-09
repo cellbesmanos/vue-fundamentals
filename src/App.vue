@@ -44,6 +44,7 @@
     <ul v-else>
       <li
         v-for="item in shoppingList"
+        @click="toggleIsPurchased(item)"
         :key="item.id"
         :class="{ strikeout: item.isPurchased, priority: item.isPriority }"
       >
@@ -77,5 +78,9 @@ function addToList() {
 
   userInput.value = "";
   isHighPriority.value = false;
+}
+
+function toggleIsPurchased(item) {
+  item.isPurchased = !item.isPurchased;
 }
 </script>
