@@ -1,7 +1,26 @@
 <template>
   <main>
-    <h1>{{ header }}</h1>
-    <form @submit.prevent="addToList" class="add-item-form">
+    <div class="header">
+      <h1>{{ header }}</h1>
+      <button
+        v-if="editting"
+        @click="() => (editting = false)"
+        class="btn"
+        type="button"
+      >
+        Cancel
+      </button>
+      <button
+        v-else
+        @click="() => (editting = true)"
+        class="btn btn-primary"
+        type="button"
+      >
+        Add Item
+      </button>
+    </div>
+
+    <form v-if="editting" @submit.prevent="addToList" class="add-item-form">
       <input
         v-model.trim="userInput"
         type="text"
@@ -15,7 +34,8 @@
       <button type="submit" class="btn btn-primary">Save Item</button>
     </form>
 
-    <ul>
+    <p v-if="shoppingList.length <= 0">Nothing to buy yet. Add more items!</p>
+    <ul v-else>
       <li v-for="{ id, item } in shoppingList" :key="id">{{ item }}</li>
     </ul>
   </main>
@@ -25,6 +45,7 @@
 import { ref } from "vue";
 
 const header = ref("Shopping List App");
+const editting = ref(false);
 const userInput = ref("");
 const isHighPriority = ref(false);
 const shoppingList = ref([
